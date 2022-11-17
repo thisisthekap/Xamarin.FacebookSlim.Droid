@@ -1,0 +1,30 @@
+pr:
+  - main
+
+pool:
+  vmImage: 'macOS-12'
+
+steps:
+
+- bash: |
+    echo "##vso[build.updatebuildnumber]pullrequests-xamarin-amplitude-android-$(Build.SourceBranchName)-$(Build.BuildId)"
+  displayName: Set Build Number
+
+- bash: |
+    cd Xamarin.FacebookSlim.Droid
+    msbuild /t:Restore /p:Configuration=Release
+    msbuild /t:Build /p:Configuration=Release
+    msbuild /t:Pack /p:Configuration=Release
+  displayName: Build Release Nuget
+
+#- bash: |
+#    cd Xamarin.FacebookSlim.Droid.UsageChecker
+#    msbuild /t:Restore
+#  displayName: Restore UsageChecker
+
+#- task: XamarinAndroid@1
+#  displayName: Build UsageChecker
+#  inputs:
+#    projectFile: 'Xamarin.FacebookSlim.Droid.UsageChecker/Xamarin.FacebookSlim.Droid.UsageChecker.csproj'
+#    msbuildArguments: '/t:SignAndroidPackage /p:AndroidKeyStore=true /p:AndroidSigningKeyStore=usagechecker.jks /p:AndroidSigningKeyAlias=usagechecker /p:AndroidSigningKeyPass=usagechecker /p:AndroidSigningStorePass=usagechecker'
+#    createAppPackage: true
