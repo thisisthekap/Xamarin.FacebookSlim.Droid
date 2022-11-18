@@ -3,7 +3,7 @@
   <PropertyGroup>
     <IsPackable>true</IsPackable>
     <PackageId>Xamarin.FacebookSlim.Droid</PackageId>
-    <Version>15.1.0.10</Version>
+    <Version>15.1.0.11</Version>
     <Description>Contains bindings for https://github.com/facebook/facebook-android-sdk</Description>
     <Authors>Christian Kapplmüller, Hipolyto Obeso Huerta</Authors>
     <Company>fun.music IT GmbH</Company>
