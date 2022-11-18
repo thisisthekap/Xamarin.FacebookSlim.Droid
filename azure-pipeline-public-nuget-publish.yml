@@ -27,9 +27,9 @@ steps:
 
 - bash: |
     cd Xamarin.FacebookSlim.Droid
-    msbuild /t:Restore /p:Configuration=Release
-    msbuild /t:Build /p:Configuration=Release
-    msbuild /t:Pack /p:Configuration=Release
+    msbuild /t:Restore /p:Configuration=Release -verbosity:normal
+    msbuild /t:Build /p:Configuration=Release -verbosity:normal
+    msbuild /t:Pack /p:Configuration=Release -verbosity:normal
 
 - bash: |
     dotnet nuget push Xamarin.FacebookSlim.Droid/nugetoutput/Xamarin.FacebookSlim.Droid.*.nupkg -k "$(nugetOrgApiKey)" -s https://api.nuget.org/v3/index.json
