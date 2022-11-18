@@ -1,6 +1,7 @@
 package com.tonestro.facebookslim;
 
 import android.app.Activity;
+import android.content.Intent;
 
 import androidx.annotation.NonNull;
 
@@ -17,9 +18,10 @@ import java.util.Arrays;
 class LoginManagerSlimImpl implements LoginManagerSlim {
 
     private LoginResultListener loginResultListener;
+    private CallbackManager callbackManager;
 
     public LoginManagerSlimImpl() {
-        CallbackManager callbackManager = CallbackManager.Factory.create();
+        callbackManager = CallbackManager.Factory.create();
         LoginManager.getInstance().registerCallback(callbackManager, new LoginCallback());
         LoginManager.getInstance().setLoginBehavior(LoginBehavior.NATIVE_WITH_FALLBACK);
     }
@@ -31,6 +33,10 @@ class LoginManagerSlimImpl implements LoginManagerSlim {
 
     public void Logout() {
         LoginManager.getInstance().logOut();
+    }
+
+    public void OnActivityResult(int requestCode, int resultCode, Intent data) {
+        callbackManager.onActivityResult(requestCode,resultCode,data);
     }
 
     private class LoginCallback implements FacebookCallback<LoginResult> {
