@@ -4,7 +4,7 @@ public class LoginManagerSlimFactory {
     private LoginManagerSlimFactory() {
     }
 
-    public LoginManagerSlim createInstance(){
+    public static LoginManagerSlim createInstance(){
         return new LoginManagerSlimImpl();
     }
 }

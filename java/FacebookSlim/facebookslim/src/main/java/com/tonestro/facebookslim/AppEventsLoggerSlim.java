@@ -12,11 +12,11 @@ public class AppEventsLoggerSlim {
         logger = AppEventsLogger.newLogger(context);
     }
 
-    public static AppEventsLoggerSlim NewLogger(Context context) {
+    public static AppEventsLoggerSlim newLogger(Context context) {
         return new AppEventsLoggerSlim(context);
     }
 
-    public void LogEvent(String event, Bundle eventProperties) {
-        logger.logEvent(event, eventProperties);
+    public void logEvent(String eventName, Bundle parameters) {
+        logger.logEvent(eventName, parameters);
     }
 }

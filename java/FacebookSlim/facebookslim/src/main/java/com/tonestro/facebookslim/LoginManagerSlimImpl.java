@@ -1,6 +1,7 @@
 package com.tonestro.facebookslim;
 
 import android.app.Activity;
+import android.content.Intent;
 
 import androidx.annotation.NonNull;
 
@@ -16,65 +17,70 @@ import java.util.Arrays;
 
 class LoginManagerSlimImpl implements LoginManagerSlim {
 
+    private final CallbackManager callbackManager = CallbackManager.Factory.create();
     private LoginResultListener loginResultListener;
 
     public LoginManagerSlimImpl() {
-        CallbackManager callbackManager = CallbackManager.Factory.create();
-        LoginManager.getInstance().registerCallback(callbackManager, new LoginCallback());
+        LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                if (loginResultListener == null) {
+                    return;
+                }
+
+                AccessToken accessToken = loginResult.getAccessToken();
+                LoginResultSlim loginResultSlim = new LoginResultSlimImpl(
+                        new AccessTokenSlimImpl(
+                                accessToken.getExpires(),
+                                accessToken.getPermissions().toArray(new String[0]),
+                                accessToken.getDeclinedPermissions().toArray(new String[0]),
+                                accessToken.getExpiredPermissions().toArray(new String[0]),
+                                accessToken.getToken(),
+                                accessToken.getLastRefresh(),
+                                accessToken.getApplicationId(),
+                                accessToken.getUserId(),
+                                accessToken.getDataAccessExpirationTime(),
+                                accessToken.getGraphDomain()
+                        ),
+                        loginResult.getRecentlyGrantedPermissions().toArray(new String[0]),
+                        loginResult.getRecentlyDeniedPermissions().toArray(new String[0]));
+
+                loginResultListener.onSuccess(loginResultSlim);
+            }
+
+            @Override
+            public void onCancel() {
+                if (loginResultListener == null) {
+                    return;
+                }
+
+                loginResultListener.onCanceled();
+            }
+
+            @Override
+            public void onError(@NonNull FacebookException e) {
+                if (loginResultListener == null) {
+                    return;
+                }
+                loginResultListener.onError(e);
+            }
+        });
         LoginManager.getInstance().setLoginBehavior(LoginBehavior.NATIVE_WITH_FALLBACK);
     }
 
-    public void Login(Activity activity, String[] permissions, LoginResultListener loginResultListener) {
+    @Override
+    public void login(Activity activity, String[] permissions, LoginResultListener loginResultListener) {
         this.loginResultListener = loginResultListener;
         LoginManager.getInstance().logInWithReadPermissions(activity, Arrays.asList(permissions));
     }
 
-    public void Logout() {
+    @Override
+    public void logout() {
         LoginManager.getInstance().logOut();
     }
 
-    private class LoginCallback implements FacebookCallback<LoginResult> {
-        @Override
-        public void onSuccess(LoginResult loginResult) {
-            if (loginResultListener == null) {
-                return;
-            }
-
-            AccessToken accessToken = loginResult.getAccessToken();
-            LoginResultSlim loginResultSlim = new LoginResultSlimImpl(
-                    new AccessTokenSlimImpl(
-                            accessToken.getExpires(),
-                            accessToken.getPermissions().toArray(new String[0]),
-                            accessToken.getDeclinedPermissions().toArray(new String[0]),
-                            accessToken.getExpiredPermissions().toArray(new String[0]),
-                            accessToken.getToken(),
-                            accessToken.getLastRefresh(),
-                            accessToken.getApplicationId(),
-                            accessToken.getUserId(),
-                            accessToken.getDataAccessExpirationTime(),
-                            accessToken.getGraphDomain()
-                    ),
-                    loginResult.getRecentlyGrantedPermissions().toArray(new String[0]),
-                    loginResult.getRecentlyDeniedPermissions().toArray(new String[0]));
-
-            loginResultListener.onSuccess(loginResultSlim);
-        }
-
-        @Override
-        public void onCancel() {
-            if (loginResultListener == null) {
-                return;
-            }
-
-            loginResultListener.onCanceled();
-        }
-
-        @Override
-        public void onError(@NonNull FacebookException e) {
-            if (loginResultListener == null) {
-                return;
-            }
-            loginResultListener.onError(e);
-        }
+    @Override
+    public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
+        return callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 }

@@ -1,6 +1,7 @@
 package com.tonestro.facebookslim;
 
 class LoginResultSlimImpl implements LoginResultSlim {
+
     private final AccessTokenSlim accessToken;
     private final String[] recentlyGrantedPermissions;
     private final String[] recentlyDeniedPermissions;
@@ -11,14 +12,17 @@ class LoginResultSlimImpl implements LoginResultSlim {
         this.recentlyDeniedPermissions = recentlyDeniedPermissions;
     }
 
+    @Override
     public AccessTokenSlim getAccessToken() {
         return accessToken;
     }
 
+    @Override
     public String[] getRecentlyGrantedPermissions() {
         return recentlyGrantedPermissions;
     }
 
+    @Override
     public String[] getRecentlyDeniedPermissions() {
         return recentlyDeniedPermissions;
     }

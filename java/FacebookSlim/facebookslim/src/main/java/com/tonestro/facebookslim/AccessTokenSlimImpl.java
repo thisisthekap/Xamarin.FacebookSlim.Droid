@@ -3,6 +3,7 @@ package com.tonestro.facebookslim;
 import java.util.Date;
 
 class AccessTokenSlimImpl implements AccessTokenSlim {
+
     private final Date expires;
     private final String[] permissions;
     private final String[] declinedPermissions;
@@ -27,42 +28,52 @@ class AccessTokenSlimImpl implements AccessTokenSlim {
         this.graphDomain = graphDomain;
     }
 
+    @Override
     public Date getExpires() {
         return expires;
     }
 
+    @Override
     public String[] getPermissions() {
         return permissions;
     }
 
+    @Override
     public String[] getDeclinedPermissions() {
         return declinedPermissions;
     }
 
+    @Override
     public String[] getExpiredPermissions() {
         return expiredPermissions;
     }
 
+    @Override
     public String getToken() {
         return token;
     }
 
+    @Override
     public Date getLastRefresh() {
         return lastRefresh;
     }
 
+    @Override
     public String getApplicationId() {
         return applicationId;
     }
 
+    @Override
     public String getUserId() {
         return userId;
     }
 
+    @Override
     public Date getDataAccessExpirationTime() {
         return dataAccessExpirationTime;
     }
 
+    @Override
     public String getGraphDomain() {
         return graphDomain;
     }
