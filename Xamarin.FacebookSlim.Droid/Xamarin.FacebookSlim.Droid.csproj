@@ -86,6 +86,9 @@
     <PackageReference Include="Xamarin.Google.ZXing.Core" Version="3.3.3" />
     <PackageReference Include="Xamarin.Kotlin.StdLib" Version="1.5.10" />
   </ItemGroup>
+  <ItemGroup>
+    <TransformFile Include="Transforms\Metadata.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.Bindings.targets" />
   <Target Name="BeforeBuild">
     <Exec Command="./gradlew build" ConsoleToMsBuild="true" WorkingDirectory="$(FacebookJavaProjectPath)" />
