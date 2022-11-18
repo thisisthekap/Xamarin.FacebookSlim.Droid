@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Xamarin.FacebookSlim.Droid.Dummy
+namespace Xamarin.FacebookSlim.Droid
 {
     public interface IAccessTokenSlim
     {
@@ -12,7 +12,7 @@ namespace Xamarin.FacebookSlim.Droid.Dummy
 
         string[] ExpiredPermissions { get; }
 
-        DateTime Token { get; }
+        string Token { get; }
 
         DateTime LastRefresh { get; }
 
@@ -35,7 +35,7 @@ namespace Xamarin.FacebookSlim.Droid.Dummy
 
         public string[] ExpiredPermissions { get; }
 
-        public DateTime Token { get; }
+        public string Token { get; }
 
         public DateTime LastRefresh { get; }
 

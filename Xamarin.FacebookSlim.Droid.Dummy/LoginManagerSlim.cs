@@ -1,11 +1,13 @@
 ﻿using System;
-namespace Xamarin.FacebookSlim.Droid.Dummy
+namespace Xamarin.FacebookSlim.Droid
 {
     public interface ILoginManagerSlim
     {
-        void Login(object activity, string[] permissions, LoginResultListener loginResultListener);
+        void Login(object activity, string[] permissions, ILoginResultListener loginResultListener);
 
         void Logout();
+
+        void OnActivityResult(int requestCode, int resultCode, object data);
     }
 
     public interface ILoginResultListener
@@ -35,39 +37,34 @@ namespace Xamarin.FacebookSlim.Droid.Dummy
 
     public interface ILoginResultSlim
     {
-        AccessTokenSlim AccessToken();
-        string[] RecentlyGrantedPermissions();
-        string[] RecentlyDeniedPermissions();
+        AccessTokenSlim AccessToken { get; }
+        string[] RecentlyGrantedPermissions { get; }
+        string[] RecentlyDeniedPermissions { get; }
     }
 
     public class LoginResultSlimImpl : ILoginResultSlim
     {
-        public AccessTokenSlim AccessToken()
-        {
-            return new AccessTokenSlim();
-        }
+        AccessTokenSlim ILoginResultSlim.AccessToken => new AccessTokenSlim();
 
-        public string[] RecentlyDeniedPermissions()
-        {
-            return null;
-        }
+        string[] ILoginResultSlim.RecentlyGrantedPermissions => null;
 
-        public string[] RecentlyGrantedPermissions()
-        {
-            return null;
-        }
+        string[] ILoginResultSlim.RecentlyDeniedPermissions => null;
     }
 
     public class LoginManagerSlimImpl : ILoginManagerSlim
     {
-        public void Login(object activity, string[] permissions, LoginResultListener loginResultListener)
+         public void Login(object activity, string[] permissions, ILoginResultListener loginResultListener)
         {
-           
+            throw new NotImplementedException();
         }
 
         public void Logout()
         {
            
+        }
+
+        public void OnActivityResult(int requestCode, int resultCode, object data)
+        {
         }
     }
 
@@ -76,6 +73,14 @@ namespace Xamarin.FacebookSlim.Droid.Dummy
         public static LoginManagerSlimImpl CreateInstance()
         {
             return new LoginManagerSlimImpl();
+        }
+
+        public static LoginManagerSlimImpl Instance
+        {
+            get
+            {
+                return new LoginManagerSlimImpl();
+            }
         }
     }
 }

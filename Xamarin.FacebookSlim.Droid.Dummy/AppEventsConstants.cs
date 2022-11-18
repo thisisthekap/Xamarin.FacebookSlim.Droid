@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Xamarin.FacebookSlim.Droid.Dummy
+namespace Xamarin.FacebookSlim.Droid
 {
     public static class AppEventsConstants
     {
