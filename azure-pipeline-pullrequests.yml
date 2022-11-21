@@ -10,6 +10,12 @@ steps:
     echo "##vso[build.updatebuildnumber]pullrequests-xamarin-amplitude-android-$(Build.SourceBranchName)-$(Build.BuildId)"
   displayName: Set Build Number
 
+- task: JavaToolInstaller@0
+  inputs:
+    versionSpec: '11'
+    jdkArchitectureOption: 'x64'
+    jdkSourceOption: 'PreInstalled'
+
 - bash: |
     cd Xamarin.FacebookSlim.Droid
     msbuild /t:Restore /p:Configuration=Release -verbosity:diagnostic
