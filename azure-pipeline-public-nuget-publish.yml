@@ -25,6 +25,12 @@ steps:
       exit 1
     fi
 
+- task: JavaToolInstaller@0
+  inputs:
+    versionSpec: '11'
+    jdkArchitectureOption: 'x64'
+    jdkSourceOption: 'PreInstalled'
+
 - bash: |
     cd Xamarin.FacebookSlim.Droid
     msbuild /t:Restore /p:Configuration=Release -verbosity:diagnostic
